@@ -6,11 +6,6 @@ import { GenerateAddressDto, GeneratePrivateKeyDto, GenerateWalletDto } from './
 export class EthWalletController {
   constructor(private readonly ethService: EthService) {}
 
-  @Get()
-  public generateWallet() {
-    return this.ethService.generateWallet()
-  }
-
   @Post()
   public async generateWalletFromMnemonic(@Body() body: GenerateWalletDto) {
     return this.ethService.generateWallet(body.mnemonic)

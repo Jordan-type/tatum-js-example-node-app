@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common'
+import { Controller, Get, Param, Post } from '@nestjs/common'
 import { EthService } from './eth.service'
 import { GetTransactionDto } from './eth.dto'
 
@@ -9,5 +9,10 @@ export class EthTransactionController {
   @Get(':hash')
   public async getTransaction(@Param() param: GetTransactionDto) {
     return this.ethService.getTransaction(param.hash)
+  }
+
+  @Post()
+  public sendNative() {
+    return this.ethService.transferNativeFromExistingWallet()
   }
 }

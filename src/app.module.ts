@@ -11,6 +11,7 @@ import { BtcBlockController } from './btc/btc.block.controller'
 import { BtcWalletController } from './btc/btc.wallet.controller'
 import { BtcAddressController } from './btc/btc.address.controller'
 import { BtcTransactionController } from './btc/btc.transaction.controller'
+import { ContractStoreService } from './common/services/contract.store.service'
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { BtcTransactionController } from './btc/btc.transaction.controller'
       isGlobal: true,
     }),
   ],
-  providers: [WalletStoreService, EthService, BtcService],
+  providers: [WalletStoreService, ContractStoreService, EthService, BtcService],
   controllers: [
     EthAddressController,
     EthTransactionController,
