@@ -17,6 +17,8 @@ import { EthSdkService } from './eth/eth.sdk.service'
 import { EthErc20Service } from './eth/erc20/eth.erc20.service'
 import { EthErc721Service } from './eth/erc721/eth.erc721.service'
 import { EthErc721Controller } from './eth/erc721/eth.erc721.controller'
+import { EthErc1155Service } from './eth/erc1155/eth.erc1155.service'
+import { EthErc1155Controller } from './eth/erc1155/eth.erc1155.controller'
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { EthErc721Controller } from './eth/erc721/eth.erc721.controller'
     EthService,
     EthErc20Service,
     EthErc721Service,
+    EthErc1155Service,
     BtcService,
   ],
   controllers: [
@@ -40,6 +43,7 @@ import { EthErc721Controller } from './eth/erc721/eth.erc721.controller'
     EthWalletController,
     EthErc20Controller,
     EthErc721Controller,
+    EthErc1155Controller,
     BtcAddressController,
     BtcTransactionController,
     BtcBlockController,
