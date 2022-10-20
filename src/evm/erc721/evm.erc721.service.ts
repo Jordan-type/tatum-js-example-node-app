@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { BadRequestException, Logger } from '@nestjs/common'
 import { WalletStoreService } from '../../common/services/wallet.store.service'
-import { EthSdkService } from '../eth.sdk.service'
 import { ContractStoreService } from '../../common/services/contract.store.service'
-import { Chain } from '../../common/dto/chain.enum'
+import { EvmChain } from '../../common/dto/chain.enum'
 import { Contract } from '../../common/dto/contract.enum'
 import { GeneratedContract, GeneratedContractWithAddress } from '../../common/dto/generated.contract.dto'
-import { EthService } from '../eth.service'
 import { TransactionHash } from '@tatumio/api-client'
+import { EvmSdkService } from '../evm.sdk.service'
+import { EvmService } from '../evm.service'
 
 export const ERC721_CONTRACT_CONSTANTS = {
   symbol: 'ENFT',
@@ -15,41 +15,41 @@ export const ERC721_CONTRACT_CONSTANTS = {
   digits: 2,
 }
 
-@Injectable()
-export class EthErc721Service {
-  constructor(
-    readonly sdkService: EthSdkService,
-    readonly ethService: EthService,
+export abstract class EvmErc721Service {
+  protected constructor(
+    readonly chain: EvmChain,
+    readonly sdkService: EvmSdkService,
+    readonly evmService: EvmService,
     readonly walletStoreService: WalletStoreService,
     readonly contractStoreService: ContractStoreService,
   ) {}
 
   public async deployContract() {
-    const existingContract = await this.contractStoreService.read(Chain.ETH, Contract.ERC721)
+    const existingContract = await this.contractStoreService.read(this.chain, Contract.ERC721)
     if (existingContract !== null) {
       return existingContract
     }
 
-    const existing = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existing = await this.walletStoreService.readOrThrow(this.chain)
     const wallet = existing.addresses[0]
 
     const result: GeneratedContract = (await this.sdkService.getSdk().nft.send.deploySignedTransaction({
       ...ERC721_CONTRACT_CONSTANTS,
-      chain: Chain.ETH,
+      chain: this.chain,
       fromPrivateKey: wallet.privateKey,
     })) as TransactionHash
-    await this.contractStoreService.write(Chain.ETH, Contract.ERC721, result)
+    await this.contractStoreService.write(this.chain, Contract.ERC721, result)
     Logger.log(`ERC721 SC deployed. TxId: ${result.txId}`)
     return result
   }
 
   public async mintErc721() {
     const { contractAddress } = await this.readContractAddressOrThrow()
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const address = existingWallet.addresses[0]
 
     const result = (await this.sdkService.getSdk().nft.send.mintSignedTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       tokenId: '1337',
       to: address.address,
       contractAddress,
@@ -64,7 +64,7 @@ export class EthErc721Service {
   public async transferErc721() {
     const { contractAddress } = await this.readContractAddressOrThrow()
 
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const from = existingWallet.addresses[0]
     const to = existingWallet.addresses[1]
     const tokenId = '1337'
@@ -72,7 +72,7 @@ export class EthErc721Service {
     await this.checkErc721BalanceOrThrow(from.address, contractAddress, tokenId)
 
     const result = (await this.sdkService.getSdk().nft.send.transferSignedTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       to: to.address,
       tokenId,
       contractAddress,
@@ -86,14 +86,14 @@ export class EthErc721Service {
 
   public async burnErc721() {
     const { contractAddress } = await this.readContractAddressOrThrow()
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const address = existingWallet.addresses[1]
     const tokenId = '1337'
 
     await this.checkErc721BalanceOrThrow(address.address, contractAddress, tokenId)
 
     const result = (await this.sdkService.getSdk().nft.send.burnSignedTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       tokenId,
       contractAddress,
       fromPrivateKey: address.privateKey,
@@ -108,7 +108,7 @@ export class EthErc721Service {
     // @TODO - openapi bug
     const { data } = (await this.sdkService
       .getSdk()
-      .nft.getNFTAccountBalance(Chain.ETH, address, contractAddress)) as any as { data: string[] }
+      .nft.getNFTAccountBalance(this.chain, address, contractAddress)) as any as { data: string[] }
 
     if (!data.includes(tokenId)) {
       throw new BadRequestException({
@@ -118,21 +118,21 @@ export class EthErc721Service {
   }
 
   private async readContractAddressOrThrow(): Promise<GeneratedContractWithAddress> {
-    const existingContract = await this.contractStoreService.readOrThrow(Chain.ETH, Contract.ERC721)
+    const existingContract = await this.contractStoreService.readOrThrow(this.chain, Contract.ERC721)
 
     if (existingContract.contractAddress) {
       return existingContract as GeneratedContractWithAddress
     }
 
     try {
-      const transaction = await this.ethService.getTransaction(existingContract.txId)
+      const transaction = await this.evmService.getTransaction(existingContract.txId)
 
       const contract = {
         ...existingContract,
         contractAddress: transaction.contractAddress,
       }
 
-      await this.contractStoreService.write(Chain.ETH, Contract.ERC721, contract)
+      await this.contractStoreService.write(this.chain, Contract.ERC721, contract)
       Logger.log(`Detected erc721 contract address: ${contract.contractAddress}`)
 
       return contract as GeneratedContractWithAddress

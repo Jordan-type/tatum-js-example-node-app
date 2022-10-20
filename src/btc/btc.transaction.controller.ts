@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Post } from '@nestjs/common'
 import { BtcService } from './btc.service'
-import { GetTransactionDto } from '../eth/eth.dto'
+import { GetTransactionDto } from '../common/dto/common.dto'
 
 @Controller('btc/transaction')
 export class BtcTransactionController {

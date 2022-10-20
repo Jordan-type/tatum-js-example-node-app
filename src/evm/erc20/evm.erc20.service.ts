@@ -1,13 +1,13 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { BadRequestException, Logger } from '@nestjs/common'
 import { WalletStoreService } from '../../common/services/wallet.store.service'
-import { EthSdkService } from '../eth.sdk.service'
 import { ContractStoreService } from '../../common/services/contract.store.service'
-import { Chain } from '../../common/dto/chain.enum'
+import { EvmChain } from '../../common/dto/chain.enum'
 import { Contract } from '../../common/dto/contract.enum'
 import { GeneratedContract, GeneratedContractWithAddress } from '../../common/dto/generated.contract.dto'
-import { EthService } from '../eth.service'
 import { TransactionHash } from '@tatumio/api-client'
 import BigNumber from 'bignumber.js'
+import { EvmSdkService } from '../evm.sdk.service'
+import { EvmService } from '../evm.service'
 
 export const CONTRACT_CONSTANTS = {
   symbol: 'EXMPL',
@@ -16,22 +16,22 @@ export const CONTRACT_CONSTANTS = {
   digits: 2,
 }
 
-@Injectable()
-export class EthErc20Service {
-  constructor(
-    readonly sdkService: EthSdkService,
-    readonly ethService: EthService,
+export abstract class EvmErc20Service {
+  protected constructor(
+    readonly chain: EvmChain,
+    readonly sdkService: EvmSdkService,
+    readonly ethService: EvmService,
     readonly walletStoreService: WalletStoreService,
     readonly contractStoreService: ContractStoreService,
   ) {}
 
   public async deployContract() {
-    const existingContract = await this.contractStoreService.read(Chain.ETH, Contract.ERC20)
+    const existingContract = await this.contractStoreService.read(this.chain, Contract.ERC20)
     if (existingContract !== null) {
       return existingContract
     }
 
-    const existing = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existing = await this.walletStoreService.readOrThrow(this.chain)
     const wallet = existing.addresses[0]
 
     const result: GeneratedContract = (await this.sdkService.getSdk().erc20.send.deploySignedTransaction({
@@ -40,7 +40,7 @@ export class EthErc20Service {
       address: wallet.address,
       fromPrivateKey: wallet.privateKey,
     })) as TransactionHash
-    await this.contractStoreService.write(Chain.ETH, Contract.ERC20, result)
+    await this.contractStoreService.write(this.chain, Contract.ERC20, result)
     Logger.log(`ERC20 SC deployed. TxId: ${result.txId}`)
     return result
   }
@@ -48,7 +48,7 @@ export class EthErc20Service {
   public async transferErc20() {
     const { contractAddress } = await this.readContractAddressOrThrow()
 
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const from = existingWallet.addresses[0]
     const to = existingWallet.addresses[1]
     const amount = '100'
@@ -65,7 +65,7 @@ export class EthErc20Service {
     await this.ethService.checkNativeBalanceOrThrow(from.address, '0', fee)
 
     const result = (await this.sdkService.getSdk().erc20.send.transferSignedTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       to: to.address,
       amount,
       contractAddress,
@@ -86,11 +86,11 @@ export class EthErc20Service {
 
   public async mintErc20() {
     const { contractAddress } = await this.readContractAddressOrThrow()
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const address = existingWallet.addresses[0]
 
     const result = (await this.sdkService.getSdk().erc20.send.mintSignedTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       amount: '1000',
       to: address.address,
       contractAddress,
@@ -103,11 +103,11 @@ export class EthErc20Service {
 
   public async burnErc20() {
     const { contractAddress } = await this.readContractAddressOrThrow()
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const address = existingWallet.addresses[0]
 
     const result = (await this.sdkService.getSdk().erc20.send.burnSignedTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       amount: '100',
       contractAddress,
       fromPrivateKey: address.privateKey,
@@ -120,7 +120,7 @@ export class EthErc20Service {
   private async checkErc20BalanceOrThrow(address: string, contractAddress: string, amount: string) {
     const { balance } = await this.sdkService
       .getSdk()
-      .erc20.getErc20AccountBalance(Chain.ETH, address, contractAddress)
+      .erc20.getErc20AccountBalance(this.chain, address, contractAddress)
     const balanceFixed = new BigNumber(balance || '0').dividedBy(
       new BigNumber(10).pow(CONTRACT_CONSTANTS.digits),
     )
@@ -132,7 +132,7 @@ export class EthErc20Service {
   }
 
   private async readContractAddressOrThrow(): Promise<GeneratedContractWithAddress> {
-    const existingContract = await this.contractStoreService.readOrThrow(Chain.ETH, Contract.ERC20)
+    const existingContract = await this.contractStoreService.readOrThrow(this.chain, Contract.ERC20)
 
     if (existingContract.contractAddress) {
       return existingContract as GeneratedContractWithAddress
@@ -146,7 +146,7 @@ export class EthErc20Service {
         contractAddress: transaction.contractAddress,
       }
 
-      await this.contractStoreService.write(Chain.ETH, Contract.ERC20, contract)
+      await this.contractStoreService.write(this.chain, Contract.ERC20, contract)
       Logger.log(`Detected erc20 contract address: ${contract.contractAddress}`)
 
       return contract as GeneratedContractWithAddress

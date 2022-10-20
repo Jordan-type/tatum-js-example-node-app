@@ -2,6 +2,8 @@ export enum Chain {
   ETH = 'ETH',
   BTC = 'BTC',
   TRON = 'TRON',
-  POLYGON = 'POLYGON',
+  MATIC = 'MATIC',
   SOLANA = 'SOLANA',
 }
+
+export type EvmChain = Chain.ETH | Chain.MATIC

@@ -1,51 +1,51 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { BadRequestException, Logger } from '@nestjs/common'
 import { WalletStoreService } from '../../common/services/wallet.store.service'
-import { EthSdkService } from '../eth.sdk.service'
 import { ContractStoreService } from '../../common/services/contract.store.service'
-import { Chain } from '../../common/dto/chain.enum'
+import { EvmChain } from '../../common/dto/chain.enum'
 import { Contract } from '../../common/dto/contract.enum'
 import { GeneratedContract, GeneratedContractWithAddress } from '../../common/dto/generated.contract.dto'
-import { EthService } from '../eth.service'
 import { TransactionHash } from '@tatumio/api-client'
 import BigNumber from 'bignumber.js'
+import { EvmSdkService } from '../evm.sdk.service'
+import { EvmService } from '../evm.service'
 
-@Injectable()
-export class EthErc1155Service {
-  constructor(
-    readonly sdkService: EthSdkService,
-    readonly ethService: EthService,
+export abstract class EvmErc1155Service {
+  protected constructor(
+    readonly chain: EvmChain,
+    readonly sdkService: EvmSdkService,
+    readonly evmService: EvmService,
     readonly walletStoreService: WalletStoreService,
     readonly contractStoreService: ContractStoreService,
   ) {}
 
   public async deployContract() {
-    const existingContract = await this.contractStoreService.read(Chain.ETH, Contract.ERC1155)
+    const existingContract = await this.contractStoreService.read(this.chain, Contract.ERC1155)
     if (existingContract !== null) {
       return existingContract
     }
 
-    const existing = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existing = await this.walletStoreService.readOrThrow(this.chain)
     const wallet = existing.addresses[0]
 
     const result: GeneratedContract = (await this.sdkService
       .getSdk()
       .multiToken.send.deployMultiTokenTransaction({
-        chain: Chain.ETH,
+        chain: this.chain,
         uri: 'https://tatum.io',
         fromPrivateKey: wallet.privateKey,
       })) as TransactionHash
-    await this.contractStoreService.write(Chain.ETH, Contract.ERC1155, result)
+    await this.contractStoreService.write(this.chain, Contract.ERC1155, result)
     Logger.log(`ERC1155 SC deployed. TxId: ${result.txId}`)
     return result
   }
 
   public async mintErc1155() {
     const { contractAddress } = await this.readContractAddressOrThrow()
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const address = existingWallet.addresses[0]
 
     const result = (await this.sdkService.getSdk().multiToken.send.mintMultiTokenTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       tokenId: '1337',
       amount: '1000',
       to: address.address,
@@ -60,7 +60,7 @@ export class EthErc1155Service {
   public async transferErc1155() {
     const { contractAddress } = await this.readContractAddressOrThrow()
 
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const from = existingWallet.addresses[0]
     const to = existingWallet.addresses[1]
     const tokenId = '1337'
@@ -69,7 +69,7 @@ export class EthErc1155Service {
     await this.checkErc1155BalanceOrThrow(from.address, contractAddress, tokenId, amount)
 
     const result = (await this.sdkService.getSdk().multiToken.send.transferMultiTokenTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       to: to.address,
       tokenId,
       amount,
@@ -84,7 +84,7 @@ export class EthErc1155Service {
 
   public async burnErc1155() {
     const { contractAddress } = await this.readContractAddressOrThrow()
-    const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
+    const existingWallet = await this.walletStoreService.readOrThrow(this.chain)
     const address = existingWallet.addresses[0]
     const tokenId = '1337'
     const amount = '100'
@@ -92,7 +92,7 @@ export class EthErc1155Service {
     await this.checkErc1155BalanceOrThrow(address.address, contractAddress, tokenId, amount)
 
     const result = (await this.sdkService.getSdk().multiToken.send.burnMultiTokenTransaction({
-      chain: Chain.ETH,
+      chain: this.chain,
       account: address.address,
       tokenId,
       amount,
@@ -113,7 +113,7 @@ export class EthErc1155Service {
   ) {
     const { data } = await this.sdkService
       .getSdk()
-      .multiToken.getBalance(Chain.ETH, address, contractAddress, tokenId)
+      .multiToken.getBalance(this.chain, address, contractAddress, tokenId)
     const balance = new BigNumber(data || '0')
 
     if (balance.lt(new BigNumber(amount))) {
@@ -124,21 +124,21 @@ export class EthErc1155Service {
   }
 
   private async readContractAddressOrThrow(): Promise<GeneratedContractWithAddress> {
-    const existingContract = await this.contractStoreService.readOrThrow(Chain.ETH, Contract.ERC1155)
+    const existingContract = await this.contractStoreService.readOrThrow(this.chain, Contract.ERC1155)
 
     if (existingContract.contractAddress) {
       return existingContract as GeneratedContractWithAddress
     }
 
     try {
-      const transaction = await this.ethService.getTransaction(existingContract.txId)
+      const transaction = await this.evmService.getTransaction(existingContract.txId)
 
       const contract = {
         ...existingContract,
         contractAddress: transaction.contractAddress,
       }
 
-      await this.contractStoreService.write(Chain.ETH, Contract.ERC1155, contract)
+      await this.contractStoreService.write(this.chain, Contract.ERC1155, contract)
       Logger.log(`Detected erc1155 contract address: ${contract.contractAddress}`)
 
       return contract as GeneratedContractWithAddress
