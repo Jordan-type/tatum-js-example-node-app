@@ -49,7 +49,7 @@ export class EthService {
 
   public async transferNativeFromExistingWallet() {
     const { addresses } = await this.walletStoreService.readOrThrow(Chain.ETH)
-    return this.transferNative(addresses[0], addresses[1], '0.00000001')
+    return this.transferNative(addresses[0], addresses[1], '0.01')
   }
 
   public async transferNative(

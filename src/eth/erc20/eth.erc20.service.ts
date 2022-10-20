@@ -6,6 +6,7 @@ import { Chain } from '../../common/dto/chain.enum'
 import { Contract } from '../../common/dto/contract.enum'
 import { GeneratedContract, GeneratedContractWithAddress } from '../../common/dto/generated.contract.dto'
 import { EthService } from '../eth.service'
+import { TransactionHash } from '@tatumio/api-client'
 import BigNumber from 'bignumber.js'
 
 export const CONTRACT_CONSTANTS = {
@@ -33,12 +34,12 @@ export class EthErc20Service {
     const existing = await this.walletStoreService.readOrThrow(Chain.ETH)
     const wallet = existing.addresses[0]
 
-    const result: GeneratedContract = await this.sdkService.getSdk().erc20.send.deploySignedTransaction({
+    const result: GeneratedContract = (await this.sdkService.getSdk().erc20.send.deploySignedTransaction({
       ...CONTRACT_CONSTANTS,
       supply: '1000',
       address: wallet.address,
       fromPrivateKey: wallet.privateKey,
-    })
+    })) as TransactionHash
     await this.contractStoreService.write(Chain.ETH, Contract.ERC20, result)
     Logger.log(`ERC20 SC deployed. TxId: ${result.txId}`)
     return result
@@ -63,7 +64,7 @@ export class EthErc20Service {
 
     await this.ethService.checkNativeBalanceOrThrow(from.address, '0', fee)
 
-    const result = await this.sdkService.getSdk().erc20.send.transferSignedTransaction({
+    const result = (await this.sdkService.getSdk().erc20.send.transferSignedTransaction({
       chain: Chain.ETH,
       to: to.address,
       amount,
@@ -74,7 +75,7 @@ export class EthErc20Service {
         gasLimit: gasLimit.toFixed(),
         gasPrice: gasPrice.toFixed(),
       },
-    })
+    })) as TransactionHash
     Logger.log(
       `Transfer: ${from.address} -> ${to.address}: Value [ERC20]: ${amount}, Fee: ${fee.toFixed()}. TxId: ${
         result.txId
@@ -88,13 +89,13 @@ export class EthErc20Service {
     const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
     const address = existingWallet.addresses[0]
 
-    const result = await this.sdkService.getSdk().erc20.send.mintSignedTransaction({
+    const result = (await this.sdkService.getSdk().erc20.send.mintSignedTransaction({
       chain: Chain.ETH,
       amount: '1000',
       to: address.address,
       contractAddress,
       fromPrivateKey: address.privateKey,
-    })
+    })) as TransactionHash
     Logger.log(`Mint: [ERC20] 1000 Tokens to -> ${address.address}. TxId: ${result.txId}`)
 
     return result
@@ -105,12 +106,12 @@ export class EthErc20Service {
     const existingWallet = await this.walletStoreService.readOrThrow(Chain.ETH)
     const address = existingWallet.addresses[0]
 
-    const result = await this.sdkService.getSdk().erc20.send.burnSignedTransaction({
+    const result = (await this.sdkService.getSdk().erc20.send.burnSignedTransaction({
       chain: Chain.ETH,
       amount: '100',
       contractAddress,
       fromPrivateKey: address.privateKey,
-    })
+    })) as TransactionHash
     Logger.log(`Burn: [ERC20] 100 Tokens on contract ${contractAddress}. TxId: ${result.txId}`)
 
     return result

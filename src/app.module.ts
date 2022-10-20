@@ -15,6 +15,8 @@ import { ContractStoreService } from './common/services/contract.store.service'
 import { EthErc20Controller } from './eth/erc20/eth.erc20.controller'
 import { EthSdkService } from './eth/eth.sdk.service'
 import { EthErc20Service } from './eth/erc20/eth.erc20.service'
+import { EthErc721Service } from './eth/erc721/eth.erc721.service'
+import { EthErc721Controller } from './eth/erc721/eth.erc721.controller'
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { EthErc20Service } from './eth/erc20/eth.erc20.service'
     EthSdkService,
     EthService,
     EthErc20Service,
+    EthErc721Service,
     BtcService,
   ],
   controllers: [
@@ -36,6 +39,7 @@ import { EthErc20Service } from './eth/erc20/eth.erc20.service'
     EthBlockController,
     EthWalletController,
     EthErc20Controller,
+    EthErc721Controller,
     BtcAddressController,
     BtcTransactionController,
     BtcBlockController,
