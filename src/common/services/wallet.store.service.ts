@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { GeneratedWalletDto } from '../dto/generated.wallet.dto'
 import * as fs from 'fs'
 import { Chain } from '../dto/chain.enum'
@@ -20,6 +20,14 @@ export class WalletStoreService {
     } catch (e) {
       return null
     }
+  }
+
+  public async readOrThrow(chain: Chain): Promise<GeneratedWalletDto> {
+    let existing = await this.read(chain)
+    if (existing === null) {
+      throw new BadRequestException('Please generate wallet first')
+    }
+    return existing
   }
 
   private walletFile(chain: Chain): string {

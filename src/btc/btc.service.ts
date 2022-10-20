@@ -1,4 +1,4 @@
-import { Injectable, NotImplementedException } from '@nestjs/common'
+import { Injectable, Logger, NotImplementedException } from '@nestjs/common'
 import { TatumBtcSDK } from '@tatumio/btc'
 import { GeneratedWalletDto } from '../common/dto/generated.wallet.dto'
 import { WalletStoreService } from '../common/services/wallet.store.service'
@@ -20,7 +20,10 @@ export class BtcService {
 
   public async generateWalletAndAddresses(customMnemonic?: string) {
     const existing = await this.walletStoreService.read(Chain.BTC)
-    if (existing !== null) return existing
+    if (existing !== null) {
+      Logger.log(`Existing wallet: ${JSON.stringify(existing)}`)
+      return existing
+    }
 
     let generatedWalletDto = new GeneratedWalletDto()
     const { mnemonic, xpub } = await this.generateWallet(customMnemonic)
@@ -35,6 +38,7 @@ export class BtcService {
       })
     }
     await this.walletStoreService.write(Chain.BTC, generatedWalletDto)
+    Logger.log(`Generated wallet: ${JSON.stringify(generatedWalletDto)}`)
     return generatedWalletDto
   }
 
@@ -60,5 +64,35 @@ export class BtcService {
 
   public async getAddressBalance(address: string) {
     return this.getSdk().blockchain.getBlockchainAccountBalance(address)
+  }
+
+  public async transfer() {
+    const existing = await this.walletStoreService.readOrThrow(Chain.BTC)
+    const address0 = existing.addresses[0]
+    const address1 = existing.addresses[1]
+
+    const value = 0.000001
+    const transactionHash = await this.getSdk().transaction.sendTransaction(
+      {
+        fromAddress: [
+          {
+            address: address0.address,
+            privateKey: address0.privateKey,
+          },
+        ],
+        to: [
+          {
+            address: address1.address,
+            value,
+          },
+        ],
+        fee: value.toFixed(),
+        changeAddress: address0.address,
+      },
+      this._options,
+    )
+    Logger.log(
+      `Transfer: ${address0.address} -> ${address1.address}: ${value}. Tx id: ${transactionHash.txId}`,
+    )
   }
 }
