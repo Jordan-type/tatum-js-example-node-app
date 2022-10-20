@@ -1007,112 +1007,183 @@
   dependencies:
     defer-to-connect "^2.0.1"
 
-"@tatumio/api-client@2.0.1-alpha.314":
-  version "2.0.1-alpha.314"
-  resolved "https://registry.yarnpkg.com/@tatumio/api-client/-/api-client-2.0.1-alpha.314.tgz#1515743ee4caa2a54ecb8826dfead362d9c80b89"
-  integrity sha512-RVAixrgmiQcQPHJqjpEo8QiyqCY3Mw2QtPe5+xNRzSRyaLzFU1XsXjIVeJGbjflXxsDV3mrYmek7OV3Uu7buxA==
+"@tatumio/api-client@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/api-client/-/api-client-2.0.1-alpha.325.tgz#b3c846cf52b8716c6cd157e68499d3da3500716f"
+  integrity sha512-xJeleLlces42x7eoMG0eU1sKNnh+cstXaDEGRe7xnJNZe9EhYd6MAIrKcoZOPle9qs+cBSLhiKM3htGY8ZQjNw==
   dependencies:
     axios "^0.26.0"
     form-data "^4.0.0"
+    tslib "^2.0.0"
+
+"@tatumio/btc@^2.0.1-alpha.314":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/btc/-/btc-2.0.1-alpha.325.tgz#0f8472f85754ac77bec761159d2ccab57d256137"
+  integrity sha512-EljyP8BsRfUFiG2Y/YIhyHfE25ebf63wpsKMym16hiueoeJWw4BzeTActaOpjaIuxuOzhnUk7+5fGjtYM+iITg==
+  dependencies:
+    "@tatumio/api-client" "2.0.1-alpha.325"
+    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-btc-based" "2.0.1-alpha.325"
+    "@tatumio/shared-core" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-btc-based" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-common" "2.0.1-alpha.325"
+    axios "^0.26.0"
+    bignumber.js "^9.0.2"
+    bip32 "^2.0.5"
+    bip39 "^3.0.2"
+    bitcoinjs-lib "^5.2.0"
+    bitcore-lib "8.25.8"
+    form-data "^4.0.0"
+    hdkey "^2.0.1"
+    tslib "^2.0.0"
 
 "@tatumio/eth@^2.0.1-alpha.314":
-  version "2.0.1-alpha.314"
-  resolved "https://registry.yarnpkg.com/@tatumio/eth/-/eth-2.0.1-alpha.314.tgz#562adda6f4114570c9de647424a09326395af4d2"
-  integrity sha512-HsMH/cvtLovsrolYGd2ZGKK7jT+wTRvB5NFqCUPotfj04b0K2u47Pb9WDCKm2CpfANqczinduESiJuNsxHi3Lw==
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/eth/-/eth-2.0.1-alpha.325.tgz#8ef6f84ff16a1f05a59293b54a021596fa33a083"
+  integrity sha512-0JDHCM6xFc0UYkP+i9mMKt6fIdLOgHe3+8NNHn9kEqZsRRMtzqNfllqg1clYKDDUJ4XG2wa9sb5xAuB/kYvMuQ==
   dependencies:
-    "@tatumio/api-client" "2.0.1-alpha.314"
-    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.314"
-    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.314"
-    "@tatumio/shared-blockchain-evm-based" "2.0.1-alpha.314"
-    "@tatumio/shared-core" "2.0.1-alpha.314"
-    "@tatumio/shared-testing-common" "2.0.1-alpha.314"
-    "@tatumio/shared-testing-evm-based" "2.0.1-alpha.314"
+    "@tatumio/api-client" "2.0.1-alpha.325"
+    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-evm-based" "2.0.1-alpha.325"
+    "@tatumio/shared-core" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-common" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-evm-based" "2.0.1-alpha.325"
     axios "^0.26.0"
     bignumber.js "^9.0.2"
     bip39 "^3.0.2"
     ethereumjs-wallet "^1.0.2"
     form-data "^4.0.0"
+    tslib "^2.0.0"
     web3 "^1.7.4"
     web3-core "^1.7.4"
     web3-utils "^1.7.4"
 
-"@tatumio/shared-abstract-sdk@2.0.1-alpha.314":
-  version "2.0.1-alpha.314"
-  resolved "https://registry.yarnpkg.com/@tatumio/shared-abstract-sdk/-/shared-abstract-sdk-2.0.1-alpha.314.tgz#7395819b2d046ddbcb5fe5418391f7634c9177eb"
-  integrity sha512-5xTHATKsnGxt0J0NgLOu8y3P/z3XPCTkdhBhjeqUD2Xv6bXn+to+hNZ7jRsSKzz37I31yFKdt1O/ZwWYkGDYaA==
+"@tatumio/shared-abstract-sdk@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/shared-abstract-sdk/-/shared-abstract-sdk-2.0.1-alpha.325.tgz#3b73380176ad1ce731943c0036c3c45e2eaa3ff7"
+  integrity sha512-YFAZiju9UTuoENn6xWx76UOegZSt5yF90t83xZUp9F4qXPu+offGtNh29XRZKw+KDa4s+ef68wULDfWQaBEz4Q==
   dependencies:
-    "@tatumio/api-client" "2.0.1-alpha.314"
-    "@tatumio/shared-testing-common" "2.0.1-alpha.314"
+    "@tatumio/api-client" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-common" "2.0.1-alpha.325"
     axios "^0.26.0"
     bignumber.js "^9.0.2"
     form-data "^4.0.0"
+    tslib "^2.0.0"
 
-"@tatumio/shared-blockchain-abstract@2.0.1-alpha.314":
-  version "2.0.1-alpha.314"
-  resolved "https://registry.yarnpkg.com/@tatumio/shared-blockchain-abstract/-/shared-blockchain-abstract-2.0.1-alpha.314.tgz#d53c20ca2050253481d96da47fc8829009c7a33b"
-  integrity sha512-18BV1MxRfbNaLTzHkEIbTzfu5Y9EoRFdgRP7g3fDGxH19xC9gRhAbmK3Kgo4CRgrJgduQ6UWepOK7a8nVlugdQ==
+"@tatumio/shared-blockchain-abstract@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/shared-blockchain-abstract/-/shared-blockchain-abstract-2.0.1-alpha.325.tgz#66ff47fd6077a40d32e244e8f61ece8af33237e6"
+  integrity sha512-RDiLkSpxr7bjqtgz7ynltpxnQfl3hnjc007H9cbAxBnaGPKvV0pY8BtMZq7w39R7/y4RWHmsQF+XASH3QKGQTg==
   dependencies:
-    "@tatumio/api-client" "2.0.1-alpha.314"
-    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.314"
-    "@tatumio/shared-core" "2.0.1-alpha.314"
-    "@tatumio/shared-testing-common" "2.0.1-alpha.314"
+    "@tatumio/api-client" "2.0.1-alpha.325"
+    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.325"
+    "@tatumio/shared-core" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-common" "2.0.1-alpha.325"
     axios "^0.26.0"
     bignumber.js "^9.0.2"
     form-data "^4.0.0"
+    tslib "^2.0.0"
 
-"@tatumio/shared-blockchain-evm-based@2.0.1-alpha.314":
-  version "2.0.1-alpha.314"
-  resolved "https://registry.yarnpkg.com/@tatumio/shared-blockchain-evm-based/-/shared-blockchain-evm-based-2.0.1-alpha.314.tgz#d27d31c5315581a432dcc651e7c1011b28873b2e"
-  integrity sha512-8MJXSL8xwmjwdc1dgA94BgGizurkMK6iyd28eNREpzdGjzXqwOKozPFDX29FjBrhTUEtaTrmO065GD5SS8OZZA==
+"@tatumio/shared-blockchain-btc-based@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/shared-blockchain-btc-based/-/shared-blockchain-btc-based-2.0.1-alpha.325.tgz#c25a20a924ff9bdd6e3d0e4704306264102e04d6"
+  integrity sha512-ssZqwz7gCmrjxMhr/c7tYyFW3/Lh72cFMOtq0xKWy3Sz1JaP94UpAFNU6qbup1O4bQbn6LRy4CFB307giLYvKg==
   dependencies:
-    "@tatumio/api-client" "2.0.1-alpha.314"
-    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.314"
-    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.314"
-    "@tatumio/shared-core" "2.0.1-alpha.314"
-    "@tatumio/shared-testing-common" "2.0.1-alpha.314"
+    "@tatumio/api-client" "2.0.1-alpha.325"
+    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.325"
+    "@tatumio/shared-core" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-common" "2.0.1-alpha.325"
+    axios "^0.26.0"
+    bignumber.js "^9.0.2"
+    bip32 "^2.0.5"
+    bip39 "^3.0.2"
+    bitcoinjs-lib "^5.2.0"
+    bitcore-lib "8.25.8"
+    form-data "^4.0.0"
+    hdkey "^2.0.1"
+    tslib "^2.0.0"
+
+"@tatumio/shared-blockchain-evm-based@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/shared-blockchain-evm-based/-/shared-blockchain-evm-based-2.0.1-alpha.325.tgz#44a1208d085379a02f1e347bafecee1dd590ee4e"
+  integrity sha512-Tk+dCUK/Z0KEEjbeTLRBbnvfpltEvCXGuxMoVYGWTuVmqH+/BFfRyCObeWJ/TTVp6ZPCkDPk4VkHaEpz3IcRtg==
+  dependencies:
+    "@tatumio/api-client" "2.0.1-alpha.325"
+    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.325"
+    "@tatumio/shared-core" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-common" "2.0.1-alpha.325"
     axios "^0.26.0"
     bignumber.js "^9.0.2"
     bip39 "^3.0.2"
     ethereumjs-wallet "^1.0.2"
     form-data "^4.0.0"
+    tslib "^2.0.0"
     web3 "^1.7.4"
     web3-core "^1.7.4"
     web3-utils "^1.7.4"
 
-"@tatumio/shared-core@2.0.1-alpha.314":
-  version "2.0.1-alpha.314"
-  resolved "https://registry.yarnpkg.com/@tatumio/shared-core/-/shared-core-2.0.1-alpha.314.tgz#f498d7c29d7bf9a1344e1aac729c49f0fd3261bb"
-  integrity sha512-AUAIrdpCXOfhVOgT0L/UoXmqdbJksqLIMDxpFR9uTSQWa6MsonMhxXTayAuBcnjTOa22SIZTt5UzDQrzUd5ofw==
+"@tatumio/shared-core@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/shared-core/-/shared-core-2.0.1-alpha.325.tgz#63e2b1ff282ff24d8672b8364d23e91bc0bb0d93"
+  integrity sha512-CRVbAl31b89PjJeJCki2cgkZ9rYSJKgUKDqZN2Sk0vEtIMkREWC5PyhyE6cZ4ExEDjpyzxT1XMls0ONHIGr7mg==
   dependencies:
-    "@tatumio/api-client" "2.0.1-alpha.314"
+    "@tatumio/api-client" "2.0.1-alpha.325"
     axios "^0.26.0"
     form-data "^4.0.0"
+    tslib "^2.0.0"
 
-"@tatumio/shared-testing-common@2.0.1-alpha.314":
-  version "2.0.1-alpha.314"
-  resolved "https://registry.yarnpkg.com/@tatumio/shared-testing-common/-/shared-testing-common-2.0.1-alpha.314.tgz#e4cf466e0dcbf64bb3abcfc076a13ee1be1a6b7b"
-  integrity sha512-nBbndUv2lOw2L1kfLK6koy1DeqVaLvRJyYspp36uEBNlgmqd3S1mwXRi0/4+SF/mTKG5u4qGfRVuPgRWzLBx4g==
+"@tatumio/shared-testing-btc-based@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/shared-testing-btc-based/-/shared-testing-btc-based-2.0.1-alpha.325.tgz#9248f5cb0e317656f1c9aaf18647784fdff4db21"
+  integrity sha512-uIc6EEI1NjVEgCdx8KEqpqu+D1MaHINGioPZx8iAHndcqBLDdzXnwUA4YLOJl4YifPgQ+OW7d4Ps9t/yAM1bvw==
   dependencies:
-    "@tatumio/api-client" "2.0.1-alpha.314"
+    "@tatumio/api-client" "2.0.1-alpha.325"
+    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-btc-based" "2.0.1-alpha.325"
+    "@tatumio/shared-core" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-common" "2.0.1-alpha.325"
+    axios "^0.26.0"
+    bignumber.js "^9.0.2"
+    bip32 "^2.0.5"
+    bip39 "^3.0.2"
+    bitcoinjs-lib "^5.2.0"
+    bitcore-lib "8.25.8"
+    form-data "^4.0.0"
+    hdkey "^2.0.1"
+    tslib "^2.0.0"
+
+"@tatumio/shared-testing-common@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/shared-testing-common/-/shared-testing-common-2.0.1-alpha.325.tgz#3165d8b8bab8a29d87facc8019bc0f8daed2ab62"
+  integrity sha512-nnxkJmZ5p7uZCPJnQoOe69IjmU2oUmdsLRW7czmIa4RKYrtB+1fvkw7/gvS1RmPc/xlHIFuWtYpz8SzltHy+9A==
+  dependencies:
+    "@tatumio/api-client" "2.0.1-alpha.325"
     axios "^0.26.0"
     form-data "^4.0.0"
+    tslib "^2.0.0"
 
-"@tatumio/shared-testing-evm-based@2.0.1-alpha.314":
-  version "2.0.1-alpha.314"
-  resolved "https://registry.yarnpkg.com/@tatumio/shared-testing-evm-based/-/shared-testing-evm-based-2.0.1-alpha.314.tgz#da244744ac8143be7df7171cf8e8807b48bcb1a5"
-  integrity sha512-MSqkvAwmQwIY1gvHzB5SlDr2UhWYDzsUNg4VIrsc0y5u1TkXF11EmGB9a9smQSJ2GO9Bg9VrQgVYkvk/Pt7GAw==
+"@tatumio/shared-testing-evm-based@2.0.1-alpha.325":
+  version "2.0.1-alpha.325"
+  resolved "https://registry.yarnpkg.com/@tatumio/shared-testing-evm-based/-/shared-testing-evm-based-2.0.1-alpha.325.tgz#da5d1b49a50c15a82197e00bd1cecdb975096322"
+  integrity sha512-C91U0yjttbgtT7LFp/e8qFlRVd7wZnbYA5Tx457HfqhF724JOokcjzPBXOaFcncDyE6W9MS0ht5L4FunFieSBw==
   dependencies:
-    "@tatumio/api-client" "2.0.1-alpha.314"
-    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.314"
-    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.314"
-    "@tatumio/shared-blockchain-evm-based" "2.0.1-alpha.314"
-    "@tatumio/shared-core" "2.0.1-alpha.314"
-    "@tatumio/shared-testing-common" "2.0.1-alpha.314"
+    "@tatumio/api-client" "2.0.1-alpha.325"
+    "@tatumio/shared-abstract-sdk" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-abstract" "2.0.1-alpha.325"
+    "@tatumio/shared-blockchain-evm-based" "2.0.1-alpha.325"
+    "@tatumio/shared-core" "2.0.1-alpha.325"
+    "@tatumio/shared-testing-common" "2.0.1-alpha.325"
     axios "^0.26.0"
     bignumber.js "^9.0.2"
     bip39 "^3.0.2"
     ethereumjs-wallet "^1.0.2"
     form-data "^4.0.0"
+    tslib "^2.0.0"
     web3 "^1.7.4"
     web3-core "^1.7.4"
     web3-utils "^1.7.4"
@@ -1312,6 +1383,11 @@
   version "18.11.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.2.tgz#c59b7641832531264fda3f1ba610362dc9a7dfc8"
   integrity sha512-BWN3M23gLO2jVG8g/XHIRFWiiV4/GckeFIqbU/C4V3xpoBBWSMk4OZomouN0wCkfQFPqgZikyLr7DOYDysIkkw==
+
+"@types/node@10.12.18":
+  version "10.12.18"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
+  integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
 
 "@types/node@11.11.6":
   version "11.11.6"
@@ -1916,6 +1992,16 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bech32@=1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/bech32/-/bech32-1.1.3.tgz#bd47a8986bbb3eec34a56a097a84b8d3e9a2dfcd"
+  integrity sha512-yuVFUvrNcoJi0sv5phmqc6P+Fl1HjRDRNOOkHY2X/3LBy2bIGNSFx4fZ95HMaXHupuS7cZR15AsvtmCIF4UEyg==
+
+bech32@^1.1.2:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/bech32/-/bech32-1.1.4.tgz#e38c9f37bf179b8eb16ae3a772b40c356d4832e9"
+  integrity sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==
+
 bignumber.js@^9.0.0, bignumber.js@^9.0.2:
   version "9.1.0"
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.1.0.tgz#8d340146107fe3a6cb8d40699643c302e8773b62"
@@ -1926,6 +2012,31 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
+bindings@^1.3.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.5.0.tgz#10353c9e945334bc0511a6d90b38fbc7c9c504df"
+  integrity sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
+  dependencies:
+    file-uri-to-path "1.0.0"
+
+bip174@^2.0.1:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/bip174/-/bip174-2.1.0.tgz#cd3402581feaa5116f0f00a0eaee87a5843a2d30"
+  integrity sha512-lkc0XyiX9E9KiVAS1ZiOqK1xfiwvf4FXDDdkDq5crcDzOq+xGytY+14qCsqz7kCiy8rpN1CRNfacRhf9G3JNSA==
+
+bip32@^2.0.4, bip32@^2.0.5:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.6.tgz#6a81d9f98c4cd57d05150c60d8f9e75121635134"
+  integrity sha512-HpV5OMLLGTjSVblmrtYRfFFKuQB+GArM0+XP8HGWfJ5vxYBqo+DesvJwOdC2WJ3bCkZShGf0QIfoIpeomVzVdA==
+  dependencies:
+    "@types/node" "10.12.18"
+    bs58check "^2.1.1"
+    create-hash "^1.2.0"
+    create-hmac "^1.1.7"
+    tiny-secp256k1 "^1.1.3"
+    typeforce "^1.11.5"
+    wif "^2.0.6"
+
 bip39@^3.0.2:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/bip39/-/bip39-3.0.4.tgz#5b11fed966840b5e1b8539f0f54ab6392969b2a0"
@@ -1935,6 +2046,52 @@ bip39@^3.0.2:
     create-hash "^1.1.0"
     pbkdf2 "^3.0.9"
     randombytes "^2.0.1"
+
+bip66@^1.1.0:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/bip66/-/bip66-1.1.5.tgz#01fa8748785ca70955d5011217d1b3139969ca22"
+  integrity sha512-nemMHz95EmS38a26XbbdxIYj5csHd3RMP3H5bwQknX0WYHF01qhpufP42mLOwVICuH2JmhIhXiWs89MfUGL7Xw==
+  dependencies:
+    safe-buffer "^5.0.1"
+
+bitcoin-ops@^1.3.0, bitcoin-ops@^1.4.0:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/bitcoin-ops/-/bitcoin-ops-1.4.1.tgz#e45de620398e22fd4ca6023de43974ff42240278"
+  integrity sha512-pef6gxZFztEhaE9RY9HmWVmiIHqCb2OyS4HPKkpc6CIiiOa3Qmuoylxc5P2EkU3w+5eTSifI9SEZC88idAIGow==
+
+bitcoinjs-lib@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/bitcoinjs-lib/-/bitcoinjs-lib-5.2.0.tgz#caf8b5efb04274ded1b67e0706960b93afb9d332"
+  integrity sha512-5DcLxGUDejgNBYcieMIUfjORtUeNWl828VWLHJGVKZCb4zIS1oOySTUr0LGmcqJBQgTBz3bGbRQla4FgrdQEIQ==
+  dependencies:
+    bech32 "^1.1.2"
+    bip174 "^2.0.1"
+    bip32 "^2.0.4"
+    bip66 "^1.1.0"
+    bitcoin-ops "^1.4.0"
+    bs58check "^2.0.0"
+    create-hash "^1.1.0"
+    create-hmac "^1.1.3"
+    merkle-lib "^2.0.10"
+    pushdata-bitcoin "^1.0.1"
+    randombytes "^2.0.1"
+    tiny-secp256k1 "^1.1.1"
+    typeforce "^1.11.3"
+    varuint-bitcoin "^1.0.4"
+    wif "^2.0.1"
+
+bitcore-lib@8.25.8:
+  version "8.25.8"
+  resolved "https://registry.yarnpkg.com/bitcore-lib/-/bitcore-lib-8.25.8.tgz#b4a9d6cd715596297d958d2ad12fdf09e54a16d7"
+  integrity sha512-vxNJ+DLAeC2V8iPa6dRvUbb/Nm3Vr/cXKhCKSIxj8YPU2tP0QiwEz2Lu9sbqhtsmIerS+F1eeHulzS21MpS2GQ==
+  dependencies:
+    bech32 "=1.1.3"
+    bn.js "=4.11.8"
+    bs58 "^4.0.1"
+    buffer-compare "=1.1.1"
+    elliptic "^6.5.3"
+    inherits "=2.0.1"
+    lodash "^4.17.20"
 
 bl@^4.1.0:
   version "4.1.0"
@@ -1960,7 +2117,12 @@ bn.js@4.11.6:
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.6.tgz#53344adb14617a13f6e8dd2ce28905d1c0ba3215"
   integrity sha512-XWwnNNFCuuSQ0m3r3C4LE3EiORltHd9M05pq6FOlVeiophzRbMo50Sbz1ehl8K3Z+jw9+vmgnXefY1hz8X+2wA==
 
-bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.11.6, bn.js@^4.11.9:
+bn.js@=4.11.8:
+  version "4.11.8"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
+  integrity sha512-ItfYfPLkWHUjckQCk8xC+LwxgK8NYcXywGigJgSwOP8Y2iyWT4f2vsZnoOXTTbo+o5yXmIUJ4gn5538SO5S3gA==
+
+bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.11.6, bn.js@^4.11.8, bn.js@^4.11.9:
   version "4.12.0"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.12.0.tgz#775b3f278efbb9718eec7361f483fb36fbbfea88"
   integrity sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA==
@@ -2097,14 +2259,14 @@ bs-logger@0.x:
   dependencies:
     fast-json-stable-stringify "2.x"
 
-bs58@^4.0.0:
+bs58@^4.0.0, bs58@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/bs58/-/bs58-4.0.1.tgz#be161e76c354f6f788ae4071f63f34e8c4f0a42a"
   integrity sha512-Ok3Wdf5vOIlBrgCvTq96gBkJw+JUEzdBgyaza5HLtPm7yTHkjRy8+JzNyHF7BHa0bNWOQIp3m5YF0nnFcOIKLw==
   dependencies:
     base-x "^3.0.2"
 
-bs58check@^2.1.2:
+bs58check@<3.0.0, bs58check@^2.0.0, bs58check@^2.1.1, bs58check@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/bs58check/-/bs58check-2.1.2.tgz#53b018291228d82a5aa08e7d796fdafda54aebfc"
   integrity sha512-0TS1jicxdU09dwJMNZtVAfzPi6Q6QeN0pM1Fkzrjn+XYHvzMKPU3pHVpva+769iNVSfIYWf7LJ6WR+BuuMf8cA==
@@ -2119,6 +2281,11 @@ bser@2.1.1:
   integrity sha512-gQxTNE/GAfIIrmHLUE3oJyp5FO6HRBfhjnw4/wMmA63ZGDJnWBmgY/lyQBpnDUkGmAhbSe39tx2d/iTOAfglwQ==
   dependencies:
     node-int64 "^0.4.0"
+
+buffer-compare@=1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/buffer-compare/-/buffer-compare-1.1.1.tgz#5be7be853af89198d1f4ddc090d1d66a48aef596"
+  integrity sha512-O6NvNiHZMd3mlIeMDjP6t/gPG75OqGPeiRZXoMQZJ6iy9GofCls4Ijs5YkPZZwoysizLiedhticmdyx/GyHghA==
 
 buffer-from@^1.0.0:
   version "1.1.2"
@@ -2542,7 +2709,7 @@ create-hash@^1.1.0, create-hash@^1.1.2, create-hash@^1.2.0:
     ripemd160 "^2.0.1"
     sha.js "^2.4.0"
 
-create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
+create-hmac@^1.1.0, create-hmac@^1.1.3, create-hmac@^1.1.4, create-hmac@^1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/create-hmac/-/create-hmac-1.1.7.tgz#69170c78b3ab957147b2b8b04572e47ead2243ff"
   integrity sha512-MJG9liiZ+ogc4TzUwuvbER1JRdgvUFSB5+VR/g5h82fGaIRWMWddtKBHi7/sVhfjQZ6SehlyhvQYrcYkaUIpLg==
@@ -3388,6 +3555,11 @@ file-entry-cache@^6.0.1:
   dependencies:
     flat-cache "^3.0.4"
 
+file-uri-to-path@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/file-uri-to-path/-/file-uri-to-path-1.0.0.tgz#553a7b8446ff6f684359c445f1e37a05dacc33dd"
+  integrity sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
+
 fill-range@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-7.0.1.tgz#1919a6a7c75fe38b2c7c77e5198535da9acdda40"
@@ -3811,6 +3983,15 @@ hash.js@1.1.7, hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.7:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
+hdkey@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/hdkey/-/hdkey-2.0.1.tgz#0a211d0c510bfc44fa3ec9d44b13b634641cad74"
+  integrity sha512-c+tl9PHG9/XkGgG0tD7CJpRVaE0jfZizDNmnErUAKQ4EjQSOcOUcV3EN9ZEZS8pZ4usaeiiK0H7stzuzna8feA==
+  dependencies:
+    bs58check "^2.1.2"
+    safe-buffer "^5.1.1"
+    secp256k1 "^4.0.0"
+
 hexoid@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/hexoid/-/hexoid-1.0.0.tgz#ad10c6573fb907de23d9ec63a711267d9dc9bc18"
@@ -3943,6 +4124,11 @@ inherits@2, inherits@2.0.4, inherits@^2.0.1, inherits@^2.0.3, inherits@^2.0.4, i
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
+
+inherits@=2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.1.tgz#b17d08d326b4423e568eff719f91b0b1cbdf69f1"
+  integrity sha512-8nWq2nLTAwd02jTqJExUYFSD/fKq6VH9Y/oG2accc/kdI0V98Bag8d5a4gi3XHz73rDWa2PvTtvcWYquKqSENA==
 
 inquirer@7.3.3:
   version "7.3.3"
@@ -4798,7 +4984,7 @@ lodash.merge@^4.6.2:
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash@4.17.21, lodash@^4.17.19, lodash@^4.17.21:
+lodash@4.17.21, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -4894,6 +5080,11 @@ merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/merge2/-/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
   integrity sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==
+
+merkle-lib@^2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/merkle-lib/-/merkle-lib-2.0.10.tgz#82b8dbae75e27a7785388b73f9d7725d0f6f3326"
+  integrity sha512-XrNQvUbn1DL5hKNe46Ccs+Tu3/PYOlrcZILuGUhb95oKBPjc/nmIC8D462PQkipVDGKRvwhn+QFg2cCdIvmDJA==
 
 methods@^1.1.2, methods@~1.1.2:
   version "1.1.2"
@@ -5093,6 +5284,11 @@ mute-stream@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
+
+nan@^2.13.2:
+  version "2.17.0"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.17.0.tgz#c0150a2368a182f033e9aa5195ec76ea41a199cb"
+  integrity sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==
 
 nano-json-stream-parser@^0.1.2:
   version "0.1.2"
@@ -5533,6 +5729,13 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
+pushdata-bitcoin@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/pushdata-bitcoin/-/pushdata-bitcoin-1.0.1.tgz#15931d3cd967ade52206f523aa7331aef7d43af7"
+  integrity sha512-hw7rcYTJRAl4olM8Owe8x0fBuJJ+WGbMhQuLWOXEMN3PxPCKQHRkhfL+XG0+iXUmSHjkMmb3Ba55Mt21cZc9kQ==
+  dependencies:
+    bitcoin-ops "^1.3.0"
+
 qs@6.10.3:
   version "6.10.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.10.3.tgz#d6cde1b2ffca87b5aa57889816c5f81535e22e8e"
@@ -5844,7 +6047,7 @@ scrypt-js@^3.0.0, scrypt-js@^3.0.1:
   resolved "https://registry.yarnpkg.com/scrypt-js/-/scrypt-js-3.0.1.tgz#d314a57c2aef69d1ad98a138a21fe9eafa9ee312"
   integrity sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==
 
-secp256k1@^4.0.1:
+secp256k1@^4.0.0, secp256k1@^4.0.1:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-4.0.3.tgz#c4559ecd1b8d3c1827ed2d1b94190d69ce267303"
   integrity sha512-NLZVf+ROMxwtEj3Xa562qgv2BK5e2WNmXPiOdVIPLgs6lyTzMvBq0aWTYMI5XCP9jZMVKOcqZLw/Wc4vDkuxhA==
@@ -6296,6 +6499,17 @@ timed-out@^4.0.1:
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-4.0.1.tgz#f32eacac5a175bea25d7fab565ab3ed8741ef56f"
   integrity sha512-G7r3AhovYtr5YKOWQkta8RKAPb+J9IsO4uVmzjl8AZwfhs8UcUwTiD6gcJYSgOtzyjvQKrKYn41syHbUWMkafA==
 
+tiny-secp256k1@^1.1.1, tiny-secp256k1@^1.1.3:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/tiny-secp256k1/-/tiny-secp256k1-1.1.6.tgz#7e224d2bee8ab8283f284e40e6b4acb74ffe047c"
+  integrity sha512-FmqJZGduTyvsr2cF3375fqGHUovSwDi/QytexX1Se4BPuPZpTE5Ftp5fg+EFSuEf3lhZqgCRjEG3ydUQ/aNiwA==
+  dependencies:
+    bindings "^1.3.0"
+    bn.js "^4.11.8"
+    create-hmac "^1.1.7"
+    elliptic "^6.4.0"
+    nan "^2.13.2"
+
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -6404,7 +6618,7 @@ tsconfig-paths@4.1.0, tsconfig-paths@^4.0.0:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tslib@2.4.0, tslib@^2.1.0:
+tslib@2.4.0, tslib@^2.0.0, tslib@^2.1.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.4.0.tgz#7cecaa7f073ce680a05847aa77be941098f36dc3"
   integrity sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==
@@ -6484,6 +6698,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
+
+typeforce@^1.11.3, typeforce@^1.11.5:
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.18.0.tgz#d7416a2c5845e085034d70fcc5b6cc4a90edbfdc"
+  integrity sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
 
 typescript@4.8.3:
   version "4.8.3"
@@ -6626,6 +6845,13 @@ varint@^5.0.0:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/varint/-/varint-5.0.2.tgz#5b47f8a947eb668b848e034dcfa87d0ff8a7f7a4"
   integrity sha512-lKxKYG6H03yCZUpAGOPOsMcGxd1RHCu1iKvEHYDPmTyq2HueGhD73ssNBqqQWfvYs04G9iUFRvmAVLW20Jw6ow==
+
+varuint-bitcoin@^1.0.4:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/varuint-bitcoin/-/varuint-bitcoin-1.1.2.tgz#e76c138249d06138b480d4c5b40ef53693e24e92"
+  integrity sha512-4EVb+w4rx+YfVM32HQX42AbbT7/1f5zwAYhIujKXKk8NQK+JfRVl3pqT3hjNn/L+RstigmGGKVwHA/P0wgITZw==
+  dependencies:
+    safe-buffer "^5.1.1"
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"
@@ -6987,6 +7213,13 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
+
+wif@^2.0.1, wif@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/wif/-/wif-2.0.6.tgz#08d3f52056c66679299726fade0d432ae74b4704"
+  integrity sha512-HIanZn1zmduSF+BQhkE+YXIbEiH0xPr1012QbFEGB0xsKqJii0/SqJjyn8dFv6y36kOznMgMB+LGcbZTJ1xACQ==
+  dependencies:
+    bs58check "<3.0.0"
 
 windows-release@^4.0.0:
   version "4.0.0"

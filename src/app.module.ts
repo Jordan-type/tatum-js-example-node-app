@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { EthModule } from './eth/eth.module'
 import { ConfigModule } from '@nestjs/config'
+import { BtcModule } from './btc/btc.module'
 
 @Module({
   imports: [
@@ -8,6 +9,7 @@ import { ConfigModule } from '@nestjs/config'
       isGlobal: true,
     }),
     EthModule,
+    BtcModule,
   ],
 })
 export class AppModule {}

@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsOptional, IsString, Min } from 'class-validator'
 import { Transform } from 'class-transformer'
 
 export class MnemonicDto {
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   public mnemonic: string
 }
 
