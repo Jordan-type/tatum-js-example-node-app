@@ -1,9 +1,13 @@
 import { Injectable, NotImplementedException } from '@nestjs/common'
 import { TatumBtcSDK } from '@tatumio/btc'
 import { GeneratedWalletDto } from '../common/dto/generated.wallet.dto'
+import { WalletStoreService } from '../common/services/wallet.store.service'
+import { Chain } from '../common/dto/chain.enum'
 
 @Injectable()
 export class BtcService {
+  constructor(readonly walletStoreService: WalletStoreService) {}
+
   private getSdk() {
     return TatumBtcSDK({ apiKey: process.env.API_KEY || 'api-key' })
   }
@@ -15,6 +19,9 @@ export class BtcService {
   }
 
   public async generateWalletAndAddresses(customMnemonic?: string) {
+    const existing = await this.walletStoreService.read(Chain.BTC)
+    if (existing !== null) return existing
+
     let generatedWalletDto = new GeneratedWalletDto()
     const { mnemonic, xpub } = await this.generateWallet(customMnemonic)
     generatedWalletDto.mnemonic = mnemonic
@@ -27,6 +34,7 @@ export class BtcService {
         index: i,
       })
     }
+    await this.walletStoreService.write(Chain.BTC, generatedWalletDto)
     return generatedWalletDto
   }
 
