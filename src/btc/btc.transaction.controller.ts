@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common'
+import { Controller, Get, Param, Post } from '@nestjs/common'
 import { BtcService } from './btc.service'
 import { GetTransactionDto } from '../eth/eth.dto'
 
@@ -9,5 +9,10 @@ export class BtcTransactionController {
   @Get(':hash')
   public async getTransaction(@Param() param: GetTransactionDto) {
     return this.service.getTransaction(param.hash)
+  }
+
+  @Post('transfer')
+  public async transfer() {
+    return this.service.transfer()
   }
 }

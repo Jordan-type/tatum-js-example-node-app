@@ -33,7 +33,7 @@ export class BtcService {
     for (let i = 0; i < 5; i++) {
       generatedWalletDto.addresses.push({
         address: this.generateAddress(xpub, i),
-        privateKey: await this.generatePrivateKey(xpub, i),
+        privateKey: await this.generatePrivateKey(mnemonic, i),
         index: i,
       })
     }
@@ -43,7 +43,7 @@ export class BtcService {
   }
 
   public async generatePrivateKey(mnemonic: string, index: number) {
-    return this.getSdk().wallet.generatePrivateKeyFromMnemonic(mnemonic, index)
+    return this.getSdk().wallet.generatePrivateKeyFromMnemonic(mnemonic, index, this._options)
   }
 
   public generateAddress(xpub: string, index: number): string {
@@ -71,7 +71,8 @@ export class BtcService {
     const address0 = existing.addresses[0]
     const address1 = existing.addresses[1]
 
-    const value = 0.000001
+    const value = 0.00001
+    const fee = 0.000002
     const transactionHash = await this.getSdk().transaction.sendTransaction(
       {
         fromAddress: [
@@ -86,13 +87,14 @@ export class BtcService {
             value,
           },
         ],
-        fee: value.toFixed(),
+        fee: `${fee}`,
         changeAddress: address0.address,
       },
       this._options,
     )
     Logger.log(
-      `Transfer: ${address0.address} -> ${address1.address}: ${value}. Tx id: ${transactionHash.txId}`,
+      `Transfer: ${address0.address} -> ${address1.address}: Value: ${value}, Fee: ${fee}. Tx id: ${transactionHash.txId}`,
     )
+    return transactionHash
   }
 }
