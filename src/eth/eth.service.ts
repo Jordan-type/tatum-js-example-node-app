@@ -1,18 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { TatumEthSDK } from '@tatumio/eth'
 import BigNumber from 'bignumber.js'
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception'
 import { WalletStoreService } from '../common/services/wallet.store.service'
 import { Chain } from '../common/dto/chain.enum'
 import { GeneratedWalletAddressKeyDto, GeneratedWalletDto } from '../common/dto/generated.wallet.dto'
+import { EthSdkService } from './eth.sdk.service'
 
 @Injectable()
 export class EthService {
-  constructor(readonly walletStoreService: WalletStoreService) {}
-
-  private getSdk() {
-    return TatumEthSDK({ apiKey: process.env.API_KEY || 'api-key' })
-  }
+  constructor(readonly sdkService: EthSdkService, readonly walletStoreService: WalletStoreService) {}
 
   public async generateWallet(customMnemonic?: string) {
     const existing = await this.walletStoreService.read(Chain.ETH)
@@ -21,7 +17,7 @@ export class EthService {
       return existing
     }
 
-    const sdk = this.getSdk()
+    const sdk = this.sdkService.getSdk()
 
     const { mnemonic, xpub } = await sdk.wallet.generateWallet(customMnemonic)
 
@@ -39,7 +35,7 @@ export class EthService {
   }
 
   private async generateAddressAndKey(mnemonic: string, xpub: string, index: number) {
-    const sdk = this.getSdk()
+    const sdk = this.sdkService.getSdk()
 
     const address = sdk.wallet.generateAddressFromXPub(xpub, index)
     const privateKey = await sdk.wallet.generatePrivateKeyFromMnemonic(mnemonic, index)
@@ -61,13 +57,13 @@ export class EthService {
     toAddress: GeneratedWalletAddressKeyDto,
     amount: string,
   ) {
-    const sdk = this.getSdk()
+    const sdk = this.sdkService.getSdk()
 
     const { gasPrice, gasLimit, fee } = await this.estimateFee(fromAddress.address, amount, toAddress.address)
 
-    await this.checkBalanceOrThrow(fromAddress.address, amount, fee)
+    await this.checkNativeBalanceOrThrow(fromAddress.address, amount, fee)
 
-    return sdk.transaction.send.transferSignedTransaction({
+    const result = await sdk.transaction.send.transferSignedTransaction({
       to: toAddress.address,
       amount: amount,
       fromPrivateKey: fromAddress.privateKey,
@@ -76,44 +72,33 @@ export class EthService {
         gasPrice: gasPrice.toFixed(),
       },
     })
+    Logger.log(
+      `Transfer: ${fromAddress.address} -> ${
+        toAddress.address
+      }: Value: ${amount}, Fee: ${fee.toFixed()}. TxId: ${result.txId}`,
+    )
+    return result
   }
 
-  public async transferErc20(fromPrivateKey: string) {
-    const sdk = this.getSdk()
-
-    const address = sdk.wallet.generateAddressFromPrivateKey(fromPrivateKey)
-
-    const { txId } = await sdk.erc20.send.deploySignedTransaction({
-      symbol: 'EXMPL',
-      name: 'Example Contract',
-      totalCap: '1000000',
-      supply: '1000',
-      digits: 2,
-      address,
-      fromPrivateKey,
-    })
-
-    sdk.blockchain.get(txId)
-  }
-
-  private async checkBalanceOrThrow(address: string, amount: string, fee: BigNumber) {
-    const { balance } = await this.getSdk().blockchain.getBlockchainAccountBalance(address)
+  public async checkNativeBalanceOrThrow(address: string, amount: string, fee: BigNumber) {
+    const { balance } = await this.sdkService.getSdk().blockchain.getBlockchainAccountBalance(address)
     if (new BigNumber(balance || '0').lt(new BigNumber(amount).plus(fee))) {
       throw new BadRequestException({
-        msg: `Balance [${
+        msg: `Native balance [${
           balance || '0'
         }] of an address is less than amount [${amount}] + fees [${fee.toFixed()}]`,
       })
     }
   }
 
-  private async estimateFee(from: string, amount: string, to: string) {
-    const sdk = this.getSdk()
+  public async estimateFee(from: string, amount: string, to: string, contractAddress?: string) {
+    const sdk = this.sdkService.getSdk()
 
     const estimateGas = await sdk.blockchain.estimateGas({
       amount,
       from,
       to,
+      contractAddress,
     })
 
     const gasPrice = new BigNumber(estimateGas.estimations.standard).div(new BigNumber(10).pow(9))
@@ -125,26 +110,26 @@ export class EthService {
   }
 
   public async generatePrivateKey(mnemonic: string, index: number) {
-    return this.getSdk().wallet.generatePrivateKeyFromMnemonic(mnemonic, index)
+    return this.sdkService.getSdk().wallet.generatePrivateKeyFromMnemonic(mnemonic, index)
   }
 
   public generateAddress(xpub: string, index: number): string {
-    return this.getSdk().wallet.generateAddressFromXPub(xpub, index)
+    return this.sdkService.getSdk().wallet.generateAddressFromXPub(xpub, index)
   }
 
   public async getCurrentBlock() {
-    return this.getSdk().blockchain.getCurrentBlock()
+    return this.sdkService.getSdk().blockchain.getCurrentBlock()
   }
 
   public async getBlock(hashOrNumber: string) {
-    return this.getSdk().blockchain.getBlock(hashOrNumber)
+    return this.sdkService.getSdk().blockchain.getBlock(hashOrNumber)
   }
 
   public async getTransaction(hash: string) {
-    return this.getSdk().blockchain.get(hash)
+    return this.sdkService.getSdk().blockchain.get(hash)
   }
 
   public async getAddressBalance(address: string) {
-    return this.getSdk().blockchain.getBlockchainAccountBalance(address)
+    return this.sdkService.getSdk().blockchain.getBlockchainAccountBalance(address)
   }
 }
