@@ -1,20 +1,16 @@
-import { Logger } from '@nestjs/common'
+import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { WalletStoreService } from '../common/services/wallet.store.service'
-import { Chain } from '../common/dto/chain.enum'
+import { TronSdkService } from './tron.sdk.service'
 import { GeneratedWalletAddressKeyDto, GeneratedWalletDto } from '../common/dto/generated.wallet.dto'
-import { EvmSdkService } from './evm.sdk.service'
+import { Chain } from '../common/dto/chain.enum'
 import BigNumber from 'bignumber.js'
-import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception'
 
-export abstract class EvmService {
-  protected constructor(
-    readonly chain: Chain,
-    readonly sdkService: EvmSdkService,
-    readonly walletStoreService: WalletStoreService,
-  ) {}
+@Injectable()
+export class TronService {
+  constructor(readonly sdkService: TronSdkService, readonly walletStoreService: WalletStoreService) {}
 
   public async generateWallet(customMnemonic?: string) {
-    const existing = await this.walletStoreService.read(this.chain)
+    const existing = await this.walletStoreService.read(Chain.TRON)
     if (existing !== null) {
       Logger.log(`Existing wallet: ${JSON.stringify(existing)}`)
       return existing
@@ -32,7 +28,7 @@ export abstract class EvmService {
       ),
     }
 
-    await this.walletStoreService.write(this.chain, wallet)
+    await this.walletStoreService.write(Chain.TRON, wallet)
     Logger.log(`Generated wallet: ${JSON.stringify(wallet)}`)
     return wallet
   }
@@ -51,8 +47,8 @@ export abstract class EvmService {
   }
 
   public async transferNativeFromExistingWallet() {
-    const { addresses } = await this.walletStoreService.readOrThrow(this.chain)
-    return this.transferNative(addresses[0], addresses[1], '0.15')
+    const { addresses } = await this.walletStoreService.readOrThrow(Chain.TRON)
+    return this.transferNative(addresses[0], addresses[1], '100')
   }
 
   public async transferNative(
@@ -62,48 +58,27 @@ export abstract class EvmService {
   ) {
     const sdk = this.sdkService.getSdk()
 
-    const { gasPrice, gasLimit, fee } = await this.estimateFee(fromAddress.address, amount, toAddress.address)
+    await this.checkNativeBalanceOrThrow(fromAddress.address, amount)
 
-    await this.checkNativeBalanceOrThrow(fromAddress.address, amount, fee)
-
-    const result = await sdk.transaction.send.transferSignedTransaction({
+    const result = await sdk.transaction.send.signedTransaction({
       to: toAddress.address,
       amount: amount,
       fromPrivateKey: fromAddress.privateKey,
-      fee: {
-        gasLimit: gasLimit.toFixed(),
-        gasPrice: gasPrice.toFixed(),
-      },
     })
     Logger.log(
-      `Transfer: ${fromAddress.address} -> ${
-        toAddress.address
-      }: Value: ${amount}, Fee: ${fee.toFixed()}. TxId: ${result.txId}`,
+      `Transfer: ${fromAddress.address} -> ${toAddress.address}: Value: ${amount}. TxId: ${result.txId}`,
     )
     return result
   }
 
-  public async checkNativeBalanceOrThrow(address: string, amount: string, fee: BigNumber) {
-    const { balance } = await this.sdkService.getSdk().blockchain.getBlockchainAccountBalance(address)
-    if (new BigNumber(balance || '0').lt(new BigNumber(amount).plus(fee))) {
+  public async checkNativeBalanceOrThrow(address: string, amount: string) {
+    const { balance } = await this.getAddressBalance(address)
+    if (new BigNumber(balance).lt(new BigNumber(amount))) {
       throw new BadRequestException({
-        msg: `Native balance [${
-          balance || '0'
-        }] of an address is less than amount [${amount}] + fees [${fee.toFixed()}]`,
+        msg: `Native balance [${balance}] of an address is less than operation amount [${amount}]`,
       })
     }
   }
-
-  public abstract estimateFee(
-    from: string,
-    amount: string,
-    to: string,
-    contractAddress?: string,
-  ): Promise<{
-    gasLimit: BigNumber
-    gasPrice: BigNumber
-    fee: BigNumber
-  }>
 
   public async generatePrivateKey(mnemonic: string, index: number) {
     return this.sdkService.getSdk().wallet.generatePrivateKeyFromMnemonic(mnemonic, index)
@@ -122,10 +97,19 @@ export abstract class EvmService {
   }
 
   public async getTransaction(hash: string) {
-    return this.sdkService.getSdk().blockchain.get(hash)
+    return this.sdkService.getSdk().blockchain.getTransaction(hash)
   }
 
   public async getAddressBalance(address: string) {
-    return this.sdkService.getSdk().blockchain.getBlockchainAccountBalance(address)
+    try {
+      const account = await this.sdkService.getSdk().blockchain.getAccount(address)
+      return {
+        balance: new BigNumber(account.balance).dividedBy(new BigNumber(10).pow(6)).toFixed(),
+      }
+    } catch (e) {
+      return {
+        balance: '0',
+      }
+    }
   }
 }

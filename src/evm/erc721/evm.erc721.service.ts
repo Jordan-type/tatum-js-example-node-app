@@ -11,8 +11,6 @@ import { EvmService } from '../evm.service'
 export const ERC721_CONTRACT_CONSTANTS = {
   symbol: 'ENFT',
   name: 'Example NFT',
-  totalCap: '1000000',
-  digits: 2,
 }
 
 export abstract class EvmErc721Service {
@@ -33,12 +31,15 @@ export abstract class EvmErc721Service {
     const existing = await this.walletStoreService.readOrThrow(this.chain)
     const wallet = existing.addresses[0]
 
-    const result: GeneratedContract = (await this.sdkService.getSdk().nft.send.deploySignedTransaction({
+    const result = (await this.sdkService.getSdk().nft.send.deploySignedTransaction({
       ...ERC721_CONTRACT_CONSTANTS,
       chain: this.chain,
       fromPrivateKey: wallet.privateKey,
     })) as TransactionHash
-    await this.contractStoreService.write(this.chain, Contract.ERC721, result)
+    await this.contractStoreService.write(this.chain, Contract.ERC721, {
+      ...result,
+      creator: wallet.address,
+    })
     Logger.log(`ERC721 SC deployed. TxId: ${result.txId}`)
     return result
   }

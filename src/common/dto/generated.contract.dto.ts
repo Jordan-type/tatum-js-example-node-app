@@ -1,9 +1,15 @@
-export class GeneratedContract {
-  public txId: string
-  public contractAddress?: string
+export type GeneratedContractDetails = {
+  txId: string
+  creator: string
 }
 
-export class GeneratedContractWithAddress {
-  public txId: string
-  public contractAddress: string
+export type GeneratedContractWithAddress = GeneratedContractDetails & {
+  contractAddress: string
 }
+
+export type GeneratedContractWithTokenId = GeneratedContractDetails & {
+  tokenId: string
+}
+
+export type GeneratedContract =
+  | GeneratedContractDetails & Partial<GeneratedContractWithAddress> & Partial<GeneratedContractWithTokenId>

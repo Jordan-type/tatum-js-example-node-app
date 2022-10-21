@@ -27,14 +27,15 @@ export abstract class EvmErc1155Service {
     const existing = await this.walletStoreService.readOrThrow(this.chain)
     const wallet = existing.addresses[0]
 
-    const result: GeneratedContract = (await this.sdkService
-      .getSdk()
-      .multiToken.send.deployMultiTokenTransaction({
-        chain: this.chain,
-        uri: 'https://tatum.io',
-        fromPrivateKey: wallet.privateKey,
-      })) as TransactionHash
-    await this.contractStoreService.write(this.chain, Contract.ERC1155, result)
+    const result = (await this.sdkService.getSdk().multiToken.send.deployMultiTokenTransaction({
+      chain: this.chain,
+      uri: 'https://tatum.io',
+      fromPrivateKey: wallet.privateKey,
+    })) as TransactionHash
+    await this.contractStoreService.write(this.chain, Contract.ERC1155, {
+      ...result,
+      creator: wallet.address,
+    })
     Logger.log(`ERC1155 SC deployed. TxId: ${result.txId}`)
     return result
   }

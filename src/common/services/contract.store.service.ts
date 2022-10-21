@@ -2,7 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common'
 import * as fs from 'fs'
 import { Chain } from '../dto/chain.enum'
 import { Contract } from '../dto/contract.enum'
-import { GeneratedContract } from '../dto/generated.contract.dto'
+import {
+  GeneratedContract,
+  GeneratedContractWithAddress,
+  GeneratedContractWithTokenId,
+} from '../dto/generated.contract.dto'
 
 @Injectable()
 export class ContractStoreService {
@@ -37,5 +41,13 @@ export class ContractStoreService {
 
   private contractFile(chain: Chain, contract: Contract): string {
     return `contract-${chain.toLowerCase()}-${contract.toLowerCase()}.json`
+  }
+
+  public isContractWithAddress(contract: GeneratedContract): contract is GeneratedContractWithAddress {
+    return contract.contractAddress !== undefined
+  }
+
+  public isContractWithTokenId(contract: GeneratedContract): contract is GeneratedContractWithTokenId {
+    return contract.tokenId !== undefined
   }
 }
