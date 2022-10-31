@@ -47,6 +47,16 @@ import { TronTrc20Controller } from './tron/trc20/tron.trc20.controller'
 import { TronTrc20Service } from './tron/trc20/tron.trc20.service'
 import { TronTrc721Controller } from './tron/trc721/tron.trc721.controller'
 import { TronTrc721Service } from './tron/trc721/tron.trc721.service'
+import { SolanaSdkService } from './solana/solana.sdk.service'
+import { SolanaService } from './solana/solana.service'
+import { SolanaWalletController } from './solana/solana.wallet.controller'
+import { SolanaBlockController } from './solana/solana.block.controller'
+import { SolanaAddressController } from './solana/solana.address.controller'
+import { SolanaTransactionController } from './solana/solana.transaction.controller'
+import { SolanaSplService } from './solana/spl/solana.spl.service'
+import { SolanaSplController } from './solana/spl/solana.spl.controller'
+import { SolanaNftController } from './solana/nft/solana.nft.controller'
+import { SolanaNftService } from './solana/nft/solana.nft.service'
 
 @Module({
   imports: [
@@ -72,6 +82,10 @@ import { TronTrc721Service } from './tron/trc721/tron.trc721.service'
     TronTrc10Service,
     TronTrc20Service,
     TronTrc721Service,
+    SolanaSdkService,
+    SolanaService,
+    SolanaSplService,
+    SolanaNftService,
     BtcService,
   ],
   controllers: [
@@ -100,6 +114,12 @@ import { TronTrc721Service } from './tron/trc721/tron.trc721.service'
     TronTrc10Controller,
     TronTrc20Controller,
     TronTrc721Controller,
+    SolanaWalletController,
+    SolanaBlockController,
+    SolanaAddressController,
+    SolanaTransactionController,
+    SolanaSplController,
+    SolanaNftController,
   ],
 })
 export class AppModule {}

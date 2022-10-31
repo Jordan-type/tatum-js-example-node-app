@@ -5,4 +5,6 @@ export enum Contract {
   TRC10 = 'TRC10',
   TRC20 = 'TRC20',
   TRC721 = 'TRC721',
+  SPL = 'SPL',
+  NFT = 'NFT',
 }

@@ -6,6 +6,7 @@ import { Contract } from '../../common/dto/contract.enum'
 import { TronSdkService } from '../tron.sdk.service'
 import { TronService } from '../tron.service'
 import { GeneratedContractWithAddress } from '../../common/dto/generated.contract.dto'
+import { TransactionHash } from '@tatumio/api-client'
 
 export const TRC721_CONTRACT_CONSTANTS = {
   symbol: 'ENFT',
@@ -30,12 +31,12 @@ export class TronTrc721Service {
     const existing = await this.walletStoreService.readOrThrow(Chain.TRON)
     const wallet = existing.addresses[0]
 
-    const result = await this.sdkService.getSdk().nft.send.deploySignedTransaction({
+    const result = (await this.sdkService.getSdk().nft.send.deploySignedTransaction({
       ...TRC721_CONTRACT_CONSTANTS,
       chain: Chain.TRON,
       fromPrivateKey: wallet.privateKey,
       feeLimit: 10000,
-    })
+    })) as TransactionHash
     await this.contractStoreService.write(Chain.TRON, Contract.TRC721, {
       ...result,
       creator: wallet.address,
@@ -49,7 +50,7 @@ export class TronTrc721Service {
     const existingWallet = await this.walletStoreService.readOrThrow(Chain.TRON)
     const address = existingWallet.addresses[0]
 
-    const result = await this.sdkService.getSdk().nft.send.mintSignedTransaction({
+    const result = (await this.sdkService.getSdk().nft.send.mintSignedTransaction({
       chain: Chain.TRON,
       tokenId: '1337',
       to: address.address,
@@ -57,7 +58,7 @@ export class TronTrc721Service {
       url: 'ipfs://bafkreia4mipjd7u5nn55xqlex4ezsvbbpjmvy4bhl6zpb3wrhdtj2k2mme',
       fromPrivateKey: address.privateKey,
       feeLimit: 100,
-    })
+    })) as TransactionHash
     Logger.log(`Mint: Token with id [1337] successfully minted. TxId: ${result.txId}`)
 
     return result
@@ -73,14 +74,14 @@ export class TronTrc721Service {
 
     await this.checkTrc721BalanceOrThrow(from.address, contractAddress, tokenId)
 
-    const result = await this.sdkService.getSdk().nft.send.transferSignedTransaction({
+    const result = (await this.sdkService.getSdk().nft.send.transferSignedTransaction({
       chain: Chain.TRON,
       to: to.address,
       tokenId,
       contractAddress,
       fromPrivateKey: from.privateKey,
       feeLimit: 100,
-    })
+    })) as TransactionHash
     Logger.log(
       `Transfer: ${from.address} -> ${to.address}: Token [TRC721] : ${tokenId}. TxId: ${result.txId}`,
     )
@@ -95,13 +96,13 @@ export class TronTrc721Service {
 
     await this.checkTrc721BalanceOrThrow(address.address, contractAddress, tokenId)
 
-    const result = await this.sdkService.getSdk().nft.send.burnSignedTransaction({
+    const result = (await this.sdkService.getSdk().nft.send.burnSignedTransaction({
       chain: Chain.TRON,
       tokenId,
       contractAddress,
       fromPrivateKey: address.privateKey,
       feeLimit: 100,
-    })
+    })) as TransactionHash
     Logger.log(
       `Burn: [TRC721] Token with id [${tokenId}] burned on contract ${contractAddress}. TxId: ${result.txId}`,
     )

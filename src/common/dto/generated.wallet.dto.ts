@@ -1,6 +1,6 @@
 export class GeneratedWalletDto {
   public mnemonic: string
-  public xpub: string
+  public xpub?: string
   public addresses: GeneratedWalletAddressKeyDto[]
 }
 

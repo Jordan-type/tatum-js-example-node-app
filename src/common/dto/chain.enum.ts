@@ -3,7 +3,7 @@ export enum Chain {
   BTC = 'BTC',
   TRON = 'TRON',
   MATIC = 'MATIC',
-  SOLANA = 'SOLANA',
+  SOL = 'SOL',
 }
 
 export type EvmChain = Chain.ETH | Chain.MATIC

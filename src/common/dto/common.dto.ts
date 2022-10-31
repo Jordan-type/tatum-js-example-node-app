@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString, Min } from 'class-validator'
+import { IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString, Min } from 'class-validator'
 import { Transform } from 'class-transformer'
 
 export class MnemonicDto {
@@ -33,6 +33,13 @@ export class GetBlockDto {
   @IsNotEmpty()
   @IsString()
   public hashOrNumber: string
+}
+
+export class GetBlockByNumberDto {
+  @Min(0)
+  @IsNumber()
+  @Transform((v) => Number(v.value))
+  public number: number
 }
 
 export class GetTransactionDto {
